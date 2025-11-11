@@ -1,8 +1,11 @@
+import json
 import tokenize
 
 lines_list = []
 
-config = ['+', '-', '*', '%', '!', '<', '>', '/', '=', '', '', '', '', '', '', '', '', '' ]
+with open("config.json") as file:
+    config = json.load(file)
+    available_chars = config.get("available_chars",[])
 
 with tokenize.open("Test.py") as file:
     #print(file.read())
@@ -13,9 +16,9 @@ with tokenize.open("Test.py") as file:
             #print(line)
             for i in range(len(line)):
                 #print(new_line)
-                if line[i] in config and line[i - 1] not in config and line[i - 1] != ' ':
+                if line[i] in available_chars and line[i - 1] not in available_chars and line[i - 1] != ' ':
                     new_line = new_line + ' '
-                elif line[i - 1] in config and line[i] != ' ' and line[i] not in config:
+                elif line[i - 1] in available_chars and line[i] != ' ' and line[i] not in available_chars:
                     new_line = new_line + ' '
 
                 new_line = new_line + line[i]
